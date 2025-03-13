@@ -1,2 +1,2 @@
 # GDG
-GDG
+GDG - Ai challenge
