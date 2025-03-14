@@ -16,7 +16,8 @@ def testing() :
 def submit():
     data = request.get_json() 
     print("Received Data:", data)
-    return jsonify({"message": "Data received successfully"}), 200
+    print("crop : "  , data['crop'])
+    return jsonify({"yiled": "model is not ready"}), 200
 
 
 if __name__ == "__main__":
