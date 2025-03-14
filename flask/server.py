@@ -12,6 +12,12 @@ CORS(app)
 def testing() : 
     return jsonify({"ok" : "ok"})
 
+@app.route('/predict', methods=['POST'])
+def submit():
+    data = request.get_json() 
+    print("Received Data:", data)
+    return jsonify({"message": "Data received successfully"}), 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)
