@@ -6,5 +6,5 @@ app.listen(port, () => {
 });
 
 app.get("/api/test", (req, res) => {
-    res.send("Welcome to MatterAssist");
+    res.send("Working");
   });
