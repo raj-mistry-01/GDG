@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import Index from './components/Index';
 import Yield_form from './components/Yield_form';
+import ChatPanel from './components/ChatPanel';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -34,6 +35,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Index/>}></Route>
         <Route path='/yield_form' element={<Yield_form/>}></Route>
+        <Route path='/chatbot' element={<ChatPanel/>}></Route>
       </Routes>
     </BrowserRouter>
     </>
