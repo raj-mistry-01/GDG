@@ -109,9 +109,12 @@ const ChatPanel = () => {
 };
 
   return (
-    <div className="flex flex-col h-full w-full bg-white p-4 shadow-lg">
-      <h2 className="text-lg font-bold text-black mb-2">TaxBot</h2>
-      <div className="flex-1 overflow-y-auto p-4 border border-blue-500 rounded-lg bg-white">
+    <>
+    {/* <div className="flex flex-col h-full w-full bg-white p-4 shadow-lg ">
+     */}
+     <div className="flex flex-col w-full bg-white p-4 shadow-lg h-full">
+      <h2 className="text-lg font-bold text-black mb-2">Name Appvanu che</h2>
+      <div className="flex-1 p-4 border border-blue-500 rounded-lg bg-white">
         <div className="flex flex-col space-y-2">
           {chatLog.map((entry, index) => (
             <div key={index} className="mb-2">
@@ -162,6 +165,7 @@ const ChatPanel = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
