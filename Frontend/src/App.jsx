@@ -8,7 +8,8 @@ import Yield_form from './components/Yield_form';
 import ChatPanel from './components/ChatPanel';
 import ChatBot from './components/ChatBot';
 import Navbar from './components/Navbar';
-
+import Expr from './components/Expr';
+import Cnn from './components/Cnn';
 function App() {
   const [count, setCount] = useState(0);
   return (
@@ -40,6 +41,8 @@ function App() {
         <Route path='/yield_form' element={<Yield_form/>}></Route>
         <Route path='/chatbot' element={<ChatPanel/>}></Route>
         <Route path='/chatbot1' element={<ChatBot/>}></Route>
+        <Route path='/testing' element={<Expr/>}></Route>
+        <Route path='/cnn' element={<Cnn/>}></Route>
       </Routes>
     </BrowserRouter>
     </>
