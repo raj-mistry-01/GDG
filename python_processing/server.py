@@ -10,16 +10,22 @@ CORS(app)
 
 @app.route("/test" , methods = ["GET"])
 def testing() : 
-    result = prediction.predict_yield('Arecanut', 'Whole Year', 'Assam', 73804, 56708, 2051, 7024878, 22882)
-    print(f"Prediction: {result}")
     return jsonify({"ok" : "ok"})
 
 @app.route('/predict', methods=['POST'])
 def submit():
     data = request.get_json() 
     print("Received Data:", data)
-    print("crop : "  , data['crop'])
-    return jsonify({"yiled": "model is not ready"}), 200
+    print(data['crop'])
+    print(data['season'])
+    print(data['state'])
+    print(data['area'])
+    print(data['production'])
+    print(data['annual_rainfall'])
+    print(data['fertilizer'])
+    print(data['pesticide'])
+    result = prediction.predict_yield(data['crop'], data['season'], data['state'], data['area'], data['production'], data['annual_rainfall'], data['fertilizer'], data['pesticide'])
+    return result, 200
 
 
 if __name__ == "__main__":
