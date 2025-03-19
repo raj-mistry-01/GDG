@@ -1,4 +1,4 @@
-Crop,Crop_Year,Season,State,Area,Production,Annual_Rainfall,Fertilizer,Pesticide,Yield
+Crop,Crop_Year,Season,State,Area,ProductiPesticideon,Annual_Rainfall,Fertilizer,,Yield
 Arecanut,1997,Whole Year ,Assam,73814,56708,2051.4,7024878.38,22882.34,0.796086957
 Arhar/Tur,1997,Kharif     ,Assam,6637,4685,2051.4,631643.29,2057.47,0.710434783
 Castor seed,1997,Kharif     ,Assam,796,22,2051.4,75755.32,246.76,0.238333333
