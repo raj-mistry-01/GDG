@@ -90,7 +90,7 @@ const ChatPanel = () => {
   const handleSendMessage = async (message) => {
     if (message.trim() === '') return;
 
-    setChatLog((prevLog) => [...prevLog, { sender: 'user', message }]);
+    setChatLog((prevLog) => [...prevLog, { sender: 'User', message }]);
     setInput(''); // Clear the input field
     setIsLoading(true);
 
@@ -112,9 +112,9 @@ const ChatPanel = () => {
     <>
     {/* <div className="flex flex-col h-full w-full bg-white p-4 shadow-lg ">
      */}
-     <div className="flex flex-col w-full bg-white p-4 shadow-lg h-full">
+     <div className="flex flex-col w-full bg-white p-4 shadow-lg h-170">
       <h2 className="text-lg font-bold text-black mb-2">Name Appvanu che</h2>
-      <div className="flex-1 p-4 border border-blue-500 rounded-lg bg-white">
+      <div className="flex-1 p-4 border border-blue-500 rounded-lg bg-white h-[400px] overflow-y-auto">
         <div className="flex flex-col space-y-2">
           {chatLog.map((entry, index) => (
             <div key={index} className="mb-2">
