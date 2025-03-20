@@ -6,7 +6,13 @@ function Cnn() {
   const [filteredItems, setFilteredItems] = useState([]);
 
   const getfromcnn = () => {
-    return "raj"
+    return "raj";
+  };
+
+  const cnn = () => {
+    event.preventDefault()
+    console.log("do something")
+    addToDiv()
   }
 
   const getmeddata = async () => {
@@ -29,44 +35,39 @@ function Cnn() {
 
   const addToDiv = () => {
     let searchName = getfromcnn();
-    searchName = "Emoctan"
-    document.getElementById("addtodivv").innerHTML =  "";
+    searchName = "Emoctan";
+    document.getElementById("addtodivv").innerHTML = "";
     setFilteredItems(filterItemsByName(searchName));
   };
 
   return (
     <>
-      <div>
-        <h2>Filtered Medicines</h2>
-        <input
-          type="text"
-          placeholder="Search by name"
-          value={searchName}
-          onChange={(e) => setSearchName(e.target.value)}
-        />
-        <button onClick={getmeddata}>Refresh Data</button>
-        <button onClick={addToDiv}>Add to Div</button>
-        <div id="addtodivv" style={{ display: "flex", flexWrap: "wrap", gap: "10px", padding: "10px" }}>
+      {/* Upload Form */}
+      <div className="mx-auto mt-10 p-6 bg-green-100 rounded-lg shadow-md w-96 text-center">
+        <h3 className="text-lg font-semibold">Upload a Photo</h3>
+        <form className="flex flex-col items-center mt-4">
+          <input 
+            type="file" 
+            accept="image/*" 
+            className="mb-3 p-2 border rounded-md w-full cursor-pointer"
+          />
+          <button  className="bg-green-700 text-white px-5 py-2 rounded-md shadow hover:bg-green-800" onClick={()=>{cnn(event)}}>
+            Upload
+          </button>
+        </form>
+      </div>
+      <div id="addtodivv" className="flex flex-wrap gap-4 justify-center mt-5 p-5">
           {filteredItems.map((item, index) => (
             <div
               key={index}
-              style={{
-                border: "1px solid #ccc",
-                padding: "10px",
-                borderRadius: "5px",
-                boxShadow: "2px 2px 10px rgba(0,0,0,0.1)",
-                backgroundColor: "#f9f9f9",
-                width: "150px",
-                textAlign: "center",
-              }}
+              className="border p-4 rounded-lg shadow-md bg-gray-100 w-52 text-center"
             >
-              <h4>{item.name}</h4>
-              <p>Price: {item.price}</p>
-              <p>Website: {item.website}</p>
+              <h4 className="font-semibold">{item.name}</h4>
+              <p className="text-gray-600">Price: {item.price}</p>
+              <p className="text-gray-600">Website: {item.website}</p>
             </div>
           ))}
         </div>
-      </div>
     </>
   );
 }
