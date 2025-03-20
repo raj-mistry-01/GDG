@@ -135,5 +135,5 @@ def predict_yield(crop, season, state, area, production, annual_rainfall, fertil
 
 
 if __name__ == "__main__":
-    result = predict_yield('Arecanut', 'Whole Year', 'Assam', 73884, 56708, 2051, 7024878, 22882)
+    result = predict_yield('Arecanut', 'Whole Year', 'Assam', 73814 ,56708 , 7024878.38  ,22882.34 , 2051.4)
     print(f"Prediction: {result}")

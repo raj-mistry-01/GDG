@@ -85,7 +85,7 @@ const ChatPanel = () => {
       }
     }
   };
-  const genAI = new GoogleGenerativeAI("AIzaSyDr7qUBzAcslFvBezft3Yiz1YKM6k_rT60");
+  const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   const handleSendMessage = async (message) => {
     if (message.trim() === '') return;
@@ -98,7 +98,7 @@ const ChatPanel = () => {
         const result = await model.generateContent("Give in more Structural format please. "+message);
         let ans = await result.response.text();
         ans = ans.replace(/[#*]/g, '');  // Await response text properly
-        setChatLog((prevLog) => [...prevLog, { sender: 'FinTaxAI', message: ans }]); // Use `message` for consistency
+        setChatLog((prevLog) => [...prevLog, { sender: 'AgroAI', message: ans }]); // Use `message` for consistency
         console.log(ans); // Log the response text
 
     } catch (error) {
