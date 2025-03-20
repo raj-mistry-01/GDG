@@ -4,9 +4,9 @@ from bs4 import BeautifulSoup
 import json
 
 # Configure Google Gemini API
-genai.configure(api_key="AIzaSyAuiCAcfEyFfR8nPHrVwTVN7nxgS5YfSiU")
-model = genai.GenerativeModel(model_name='gemini-1.5-flash')
 
+model = genai.GenerativeModel(model_name='gemini-1.5-flash')
+genai.configure(api_key="AIzaSyAuiCAcfEyFfR8nPHrVwTVN7nxgS5YfSiU")
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
 }
@@ -16,7 +16,7 @@ class MedicineScraper:
     Scrapes a website and extracts medicine details based on the site's structure.
     """
 
-    def _init_(self, url):
+    def __init__(self, url):
         self.url = url
         self.website_name = "Unknown"
         self.medicine_content = ""
@@ -103,3 +103,8 @@ def get_medicine_text(medicine):
         else:
             print(f"No medicine details found on {website_name}.")
     return meds
+
+
+if __name__ == "__main__" :    
+    medicines = get_medicine_text("acetamiprid") 
+    print(medicines)
