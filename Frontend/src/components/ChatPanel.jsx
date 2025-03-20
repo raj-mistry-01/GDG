@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-
+import BackgroundWrapper from './BackgroundWrapper';
 
 const ChatPanel = () => {
   // console.log(process.env.GEMINI_KEY)
@@ -14,10 +14,6 @@ const ChatPanel = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [language, setLanguage] = useState('en-US');
   const chatEndRef = useRef(null);
-
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatLog]);
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -88,6 +84,7 @@ const ChatPanel = () => {
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   const handleSendMessage = async (message) => {
+    e.preventDefualt()
     if (message.trim() === '') return;
 
     setChatLog((prevLog) => [...prevLog, { sender: 'User', message }]);
@@ -109,16 +106,14 @@ const ChatPanel = () => {
 };
 
   return (
-    <>
-    {/* <div className="flex flex-col h-full w-full bg-white p-4 shadow-lg ">
-     */}
-     <div className="flex flex-col w-full bg-white p-4 shadow-lg h-170">
-      <h2 className="text-lg font-bold text-black mb-2">Name Appvanu che</h2>
-      <div className="flex-1 p-4 border border-blue-500 rounded-lg bg-white h-[400px] overflow-y-auto">
+    <BackgroundWrapper>
+      <div className="flex flex-col w-full p-4 shadow-lg h-160 overflow-hidden">
+      <h2 className="text-xl font-black text-black mb-2">Chat With AgroAi</h2>
+      <div className="flex-1 p-4 border border-green-500 rounded h-[400px] overflow-y-auto">
         <div className="flex flex-col space-y-2">
           {chatLog.map((entry, index) => (
             <div key={index} className="mb-2">
-              <p className={entry.sender === 'user' ? 'text-right text-black' : 'text-left text-black'}>
+              <p className={entry.sender === 'User' ? 'text-right text-black' : 'text-left text-black'}>
                 <strong>{entry.sender}:</strong> {entry.message}
               </p>
             </div>
@@ -133,7 +128,7 @@ const ChatPanel = () => {
         <div className="flex items-center space-x-2">
           <button
             onClick={isListening ? handleStop : handleStart}
-            className={`py-2 px-4 ${isListening ? 'bg-blue-500' : 'bg-white'} text-black rounded-full shadow-md transition duration-150`}
+            className={`py-2 px-4 ${isListening ? 'bg-green-900' : 'bg-green-200'} text-black rounded-full shadow-md transition duration-150`}
           >
             {isListening ? 'Stop' : 'Speak'}
           </button>
@@ -153,20 +148,20 @@ const ChatPanel = () => {
             onKeyDown={(e) => {
               if (e.key === 'Enter') handleSendMessage(input);
             }}
-            className="input input-bordered w-full flex-1 border-blue-500 bg-white text-black"
+            className="input input-bordered w-full flex-1 border-blue-500 bg-green-100 text-black"
             placeholder="Type a message..."
           />
           <button
             onClick={() => handleSendMessage(input)}
-            className="py-2 px-4 ml-2 bg-blue-500 text-white rounded-full shadow-md transition duration-150"
+            className="py-2 px-4 ml-2 bg-green-500 text-white rounded-full shadow-md transition duration-150"
           >
             Send
           </button>
         </div>
       </div>
     </div>
-    </>
+    </BackgroundWrapper>
   );
 };
 
-export default ChatPanel;
+export default ChatPanel; 

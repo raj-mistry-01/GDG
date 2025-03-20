@@ -4,6 +4,7 @@ import ast
 from flask_cors import CORS , cross_origin
 import numpy
 import prediction
+from webscrap import generate_medicine_json
 app = Flask(__name__)
 CORS(app)
 
@@ -27,6 +28,10 @@ def submit():
     result = prediction.predict_yield(data['crop'], data['season'], data['state'], data['area'], data['production'], data['annual_rainfall'], data['fertilizer'], data['pesticide'])
     return result, 200
 
+
+@app.route('/getmedjson' , methods = ['POST'])
+def getmedjson() :
+    return jsonify
 
 if __name__ == "__main__":
     app.run(debug=True)

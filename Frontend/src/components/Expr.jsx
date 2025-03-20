@@ -116,7 +116,7 @@ const Expr = () => {
         <div className="flex flex-col space-y-2">
           {chatLog.map((entry, index) => (
             <div key={index} className="mb-2">
-              <p className={entry.sender === 'user' ? 'text-right text-black' : 'text-left text-black'}>
+              <p className={entry.sender === 'User' ? 'text-right text-black' : 'text-left text-black'}>
                 <strong>{entry.sender}:</strong> {entry.message}
               </p>
             </div>
