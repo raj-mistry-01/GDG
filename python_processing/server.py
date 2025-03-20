@@ -4,7 +4,7 @@ import ast
 from flask_cors import CORS , cross_origin
 import numpy
 import prediction
-from webscrap import generate_medicine_json
+from webscrap import get_medicine_text
 app = Flask(__name__)
 CORS(app)
 
@@ -29,9 +29,9 @@ def submit():
     return result, 200
 
 
-@app.route('/getmedjson' , methods = ['POST'])
+@app.route('/getmedjson' , methods = ['GET'])
 def getmedjson() :
-    return jsonify
+    return jsonify(get_medicine_text())
 
 if __name__ == "__main__":
     app.run(debug=True)

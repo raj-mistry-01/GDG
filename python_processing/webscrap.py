@@ -81,7 +81,7 @@ def generate_medicine_json(medicine_text, website_name):
     response = model.generate_content(prompt)
     return response.text if response.text else "Failed to generate JSON response."
 
-def get_medicine_text(medicine):
+def get_medicine_text():
     urls = [
         "https://agribegri.com/?srsltid=AfmBOopJqQAefg02y72bStydj6VIbkeBc9qkfJWCt78LKbIsajGOOzUB",
         "https://www.bighaat.com/collections/insecticides",
@@ -106,5 +106,5 @@ def get_medicine_text(medicine):
 
 
 if __name__ == "__main__" :    
-    medicines = get_medicine_text("acetamiprid") 
+    medicines = get_medicine_text() 
     print(medicines)
