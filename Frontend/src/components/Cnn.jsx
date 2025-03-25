@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import BackgroundWrapper from "./BackgroundWrapper";
 
 function Cnn() {
   const [medicinData, setmedicinData] = useState([]);
@@ -43,7 +44,9 @@ function Cnn() {
   return (
     <>
       {/* Upload Form */}
-      <div className="mx-auto mt-10 p-6 bg-green-100 rounded-lg shadow-md w-96 text-center">
+      
+      <BackgroundWrapper>
+      <div className="mx-auto mt-10 p-6 bg-green-100 rounded-lg shadow-md w-96 h-45 text-center">
         <h3 className="text-lg font-semibold">Upload a Photo</h3>
         <form className="flex flex-col items-center mt-4">
           <input 
@@ -68,6 +71,7 @@ function Cnn() {
             </div>
           ))}
         </div>
+        </BackgroundWrapper>
     </>
   );
 }

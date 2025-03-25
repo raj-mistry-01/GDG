@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import BackgroundWrapper from './BackgroundWrapper';
 
-const Expr = () => {
+const ChatPanel = () => {
   // console.log(process.env.GEMINI_KEY)
   const API_KEY = import.meta.env.VITE_GEMINI_KEY;
   console.log(API_KEY);
@@ -14,10 +14,6 @@ const Expr = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [language, setLanguage] = useState('en-US');
   const chatEndRef = useRef(null);
-
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatLog]);
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -110,7 +106,7 @@ const Expr = () => {
 
   return (
     <BackgroundWrapper>
-      <div className="flex flex-col w-full p-4 shadow-lg h-160">
+      <div className="flex flex-col w-full p-4 shadow-lg h-160 overflow-hidden">
       <h2 className="text-xl font-black text-black mb-2">Chat With AgroAi</h2>
       <div className="flex-1 p-4 border border-green-500 rounded h-[400px] overflow-y-auto">
         <div className="flex flex-col space-y-2">
@@ -167,4 +163,4 @@ const Expr = () => {
   );
 };
 
-export default Expr; 
+export default ChatPanel; 
