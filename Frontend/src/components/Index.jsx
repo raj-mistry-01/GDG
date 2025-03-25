@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react"
 import BackgroundWrapper from "./BackgroundWrapper"
-import EmailQuery from "./Emailquery";
 
 function Index() {
   const translations = {
