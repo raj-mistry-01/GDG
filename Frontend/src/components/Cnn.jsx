@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import BackgroundWrapper from "./BackgroundWrapper";
 
 function Cnn() {
   const [medicinData, setmedicinData] = useState([]);
@@ -43,13 +44,15 @@ function Cnn() {
   return (
     <>
       {/* Upload Form */}
-      <div className="mx-auto mt-10 p-6 bg-green-100 rounded-lg shadow-md w-96 text-center">
+      
+      <BackgroundWrapper>
+      <div className="mx-auto mt-10 p-6 bg-green-100 rounded-lg shadow-md w-96 h-45 text-center">
         <h3 className="text-lg font-semibold">Upload a Photo</h3>
         <form className="flex flex-col items-center mt-4">
           <input 
             type="file" 
             accept="image/*" 
-            className="mb-3 p-2 border rounded-md w-full cursor-pointer"
+            className="mb-3 p-2 border rounded-md w-full  cursor-pointer"
           />
           <button  className="bg-green-700 text-white px-5 py-2 rounded-md shadow hover:bg-green-800" onClick={()=>{cnn(event)}}>
             Upload
@@ -68,6 +71,7 @@ function Cnn() {
             </div>
           ))}
         </div>
+        </BackgroundWrapper>
     </>
   );
 }

@@ -1,4 +1,3 @@
-// BackgroundWrapper.js
 import { motion } from "framer-motion"
 import { Wheat, Cloud, Sprout, ThermometerSun } from "lucide-react"
 

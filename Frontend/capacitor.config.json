@@ -1,0 +1,6 @@
+{
+  "appId": "com.DivineDhyana.NeuralAgri",
+  "appName": "NeuralAgri",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
