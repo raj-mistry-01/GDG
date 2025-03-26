@@ -144,7 +144,7 @@ def validate_epoch(model, loader, criterion, device):
     epoch_loss = running_loss / len(loader.dataset)
     return epoch_loss
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 

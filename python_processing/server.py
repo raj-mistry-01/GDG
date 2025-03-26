@@ -28,6 +28,11 @@ def submit():
     result = prediction.predict_yield(data['crop'], data['season'], data['state'], data['area'], data['production'], data['annual_rainfall'], data['fertilizer'], data['pesticide'])
     return result, 200
 
+@app.route("/prc",methods = ["POST"])
+def cnn() : 
+    
+    return jsonify({"ok" : "pl"})
+
 
 @app.route('/getmedjson' , methods = ['GET'])
 def getmedjson() :
