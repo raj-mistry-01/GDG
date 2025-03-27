@@ -55,7 +55,7 @@ function Cnn() {
   };
 
   const addToDiv = () => {
-    let searchName = getfromcnn();
+    var searchName = getfromcnn();
     searchName = "Emoctan";
     document.getElementById("addtodivv").innerHTML = "";
     setFilteredItems(filterItemsByName(searchName));
