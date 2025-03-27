@@ -7,6 +7,7 @@ import prediction
 from webscrap import get_medicine_text
 import os
 # from google.cloud import storage
+from CNN_use import getfromcnn
 app = Flask(__name__)
 CORS(app)
 
@@ -76,7 +77,8 @@ def cn() :
     image.filename = "test.jpg"
     image_path = os.path.join(app.config["UPLOAD_FOLDER"], image.filename)
     image.save(image_path)
-    return jsonify({"ok" : "ok"})
+    pc = getfromcnn(image_path=image_path)
+    return jsonify({"predictedClass" : pc})
 
 
 if __name__ == "__main__":

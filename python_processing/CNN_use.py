@@ -2,8 +2,47 @@ import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
 from PIL import Image
-
 # Define Residual Block (copied from CNN.py)
+
+idx_to_class = {
+    0: "Apple___Black_rot",
+    1: "Apple___Healthy",
+    2: "Apple___Scab",
+    3: "Bell_pepper___Bacterial_spot",
+    4: "Bell_pepper___Healthy",
+    5: "Cedar_apple_rust",
+    6: "Cherry___Healthy",
+    7: "Cherry___Powdery_mildew",
+    8: "Citrus___Black_spot",
+    9: "Citrus___canker",
+    10: "Citrus___greening",
+    11: "Citrus___Healthy",
+    12: "Corn___Common_rust",
+    13: "Corn___Gray_leaf_spot",
+    14: "Corn___Healthy",
+    15: "Corn___Northern_Leaf_Blight",
+    16: "Grape___Black_Measles",
+    17: "Grape___Black_rot",
+    18: "Grape___Healthy",
+    19: "Grape___Isariopsis_Leaf_Spot",
+    20: "Peach___Bacterial_spot",
+    21: "Peach___Healthy",
+    22: "Potato___Early_blight",
+    23: "Potato___Healthy",
+    24: "Potato___Late_blight",
+    25: "Strawberry___Healthy",
+    26: "Strawberry___Leaf_scorch",
+    27: "Tomato___Bacterial_spot",
+    28: "Tomato___Early_blight",
+    29: "Tomato___Healthy",
+    30: "Tomato___Late_blight",
+    31: "Tomato___Leaf_Mold",
+    32: "Tomato___Mosaic_virus",
+    33: "Tomato___Septoria_leaf_spot",
+    34: "Tomato___Spider_mites",
+    35: "Tomato___Target_Spot",
+    36: "Tomato___Yellow_Leaf_Curl_Virus"
+}
 class ResidualBlock(nn.Module):
     def __init__(self, filters):  # Fixed typo: _init_ to __init__
         super(ResidualBlock, self).__init__()
@@ -92,48 +131,52 @@ class PlantDiseaseModel(nn.Module):
         return x
 
 # Set device (CPU/GPU)
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"Using device: {device}")
 
-# Initialize the model
-model = PlantDiseaseModel(num_classes=37).to(device)
-model_path = "PlantDiseaseDetectionCNN_final.pth"
 
-# Load the trained model
-try:
-    checkpoint = torch.load(model_path, map_location=device)
-    model.load_state_dict(checkpoint)
-    model.eval()  # Set model to evaluation mode
-    print("Model loaded successfully!")
-except RuntimeError as e:
-    print("Error loading model:", e)
-    exit()
+def getfromcnn(image_path) :
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
 
-# Define image preprocessing (match training size: 128x128)
-transform = transforms.Compose([
-    transforms.Resize((128, 128)),  # Match training input size
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  # Match training normalization
-])
+    # Initialize the model
+    model = PlantDiseaseModel(num_classes=37).to(device)
+    model_path = "PlantDiseaseDetectionCNN_final.pth"
 
-# Load and preprocess input image
-image_path = "test_image.jpg"  # Change this to your input image path
-try:
-    image = Image.open(image_path).convert("RGB")
-    image = transform(image).unsqueeze(0).to(device)  # Add batch dimension
-except Exception as e:
-    print("Error loading image:", e)
-    exit()
+    try:
+        checkpoint = torch.load(model_path, map_location=device)
+        model.load_state_dict(checkpoint)
+        model.eval()  # Set model to evaluation mode
+        print("Model loaded successfully!")
+    except RuntimeError as e:
+        print("Error loading model:", e)
+        exit()
 
-# Perform inference
-with torch.no_grad():
-    output = model(image)
-    predicted_class = torch.argmax(output, dim=1).item()
+    # Define image preprocessing (match training size: 128x128)
+    transform = transforms.Compose([
+        transforms.Resize((128, 128)),  # Match training input size
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  # Match training normalization
+    ])
 
-# Print model output
-print(f"Predicted class index: {predicted_class}")
+    # Load and preprocess input image
+    # Change this to your input image path
+    try:
+        image = Image.open(image_path).convert("RGB")
+        image = transform(image).unsqueeze(0).to(device)  # Add batch dimension
+    except Exception as e:
+        print("Error loading image:", e)
+        exit()
 
-# Optional: Map the predicted class index to a label (if you have a class list)
-# Example: Replace with your actual class names
-# class_names = train_dataset.classes  # You need to load this from your dataset or define it manually
-# print(f"Predicted class name: {class_names[predicted_class]}")
+    # Perform inference
+    with torch.no_grad():
+        output = model(image)
+        predicted_class = torch.argmax(output, dim=1).item()
+
+    return predicted_class
+
+
+if __name__ == "__main__" : 
+    print("ys")
+    image_path =  r".\test_image\\cc1.jpeg"  
+    pc = getfromcnn(image_path=image_path)
+    print(" pr class : " , idx_to_class[pc])
+    print(pc)
