@@ -10,9 +10,29 @@ function Cnn() {
     return "raj";
   };
 
-  const cnn = () => {
+  const cnn = async (event) => {
     event.preventDefault()
-    console.log("do something")
+    const fileInput = document.querySelector('input[type="file"]');
+    if (!fileInput.files.length) {
+        console.error("No file selected");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        const response = await fetch("http://127.0.0.1:5000/cn", {
+            method: "POST",
+            body: formData,
+        });
+
+        const result = await response.json();
+        console.log(result)
+    } catch (error) {
+        console.error("Error uploading file:", error);
+    }
     addToDiv()
   }
 
