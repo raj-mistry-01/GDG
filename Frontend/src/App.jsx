@@ -9,6 +9,7 @@ import ChatPanel from './components/ChatPanel';
 import Navbar from './components/Navbar';
 import Expr from './components/Expr';
 import Cnn from './components/Cnn';
+import Dashboard from './components/Dashboard';
 function App() {
   const [count, setCount] = useState(0);
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/chatbot' element={<ChatPanel/>}></Route>
         <Route path='/testing' element={<Expr/>}></Route>
         <Route path='/cnn' element={<Cnn/>}></Route>
+        <Route path='/dashboard' element={<Dashboard/>}></Route>
       </Routes>
     </BrowserRouter>
     </>
