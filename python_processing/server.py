@@ -74,11 +74,10 @@ def getmedjson() :
 @app.route("/cn" , methods = ["POST"])
 def cn() : 
     image = request.files["file"]
-    image.filename = "test.jpg"
     image_path = os.path.join(app.config["UPLOAD_FOLDER"], image.filename)
     image.save(image_path)
     pc = getfromcnn(image_path=image_path)
-    return jsonify({"predictedClass" : pc})
+    return jsonify({"predictedClass" : pc}) 
 
 
 if __name__ == "__main__":

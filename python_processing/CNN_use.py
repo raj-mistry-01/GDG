@@ -171,7 +171,7 @@ def getfromcnn(image_path) :
         output = model(image)
         predicted_class = torch.argmax(output, dim=1).item()
 
-    return predicted_class
+    return idx_to_class[predicted_class]
 
 
 if __name__ == "__main__" : 
