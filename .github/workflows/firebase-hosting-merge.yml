@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          cd Frontend
+          cd frontend
           npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -20,3 +20,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_NUERALAGRI }}
           channelId: live
           projectId: nueralagri
+          entryPoint: Frontend  # Tell Firebase CLI to look for firebase.json in the frontend folder
