@@ -11,7 +11,7 @@ const ChatPanel = () => {
   const [mediaStream, setMediaStream] = useState(null);
   const [chatLog, setChatLog] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [language, setLanguage] = useState("en-US");
+  const [language, setLanguage] = useState("hi-IN");
   const chatEndRef = useRef(null);
 
   const typingInterval = 30;
@@ -115,7 +115,7 @@ const ChatPanel = () => {
 
       setChatLog((prevLog) => [...prevLog, { sender: "AgroAI", message: "" }]);
 
-      let index = 0;
+      let index = -1;
       const intervalId = setInterval(() => {
         setChatLog((prevLog) => {
           const newLog = [...prevLog];

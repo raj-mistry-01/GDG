@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Thermometer, BarChart3, Calendar, Droplets, Wind, Search, Languages, Cloud, CloudRain, Sun } from 'lucide-react';
+import { MapPin, Thermometer, Calendar, Droplets, Wind, Languages, Cloud, CloudRain, Sun } from 'lucide-react';
 import BackgroundWrapper from "./BackgroundWrapper";
 
 const translations = {
@@ -8,13 +8,7 @@ const translations = {
     dashboard: "Farmer's Dashboard",
     location: "Current Location",
     weather: "Weather",
-    crops: "Crop Prices",
-    search: "Search crops...",
-    crop: "Crop",
-    commodity: "Commodity",
-    minPrice: "Min Price",
-    maxPrice: "Max Price",
-    modalPrice: "Modal Price",
+    soilMoisture: "Soil Moisture",
     temperature: "Temperature",
     humidity: "Humidity",
     windSpeed: "Wind Speed",
@@ -23,23 +17,16 @@ const translations = {
     switchToHindi: "हिंदी में बदलें",
     switchToEnglish: "Switch to English",
     today: "Today",
-    pricePerQuintal: "Price (₹/Quintal)",
     farmer: "Farmer",
-    noCropsFound: "No crops found matching your search",
     locationNotFound: "Location access denied or not found, using default",
-    noCropData: "No crop data available for this location",
+    soilMoistureLoading: "Loading soil moisture data...",
+    soilMoistureError: "Failed to fetch soil moisture data",
   },
   hindi: {
     dashboard: "किसान डैशबोर्ड",
     location: "वर्तमान स्थान",
     weather: "मौसम",
-    crops: "फसल मूल्य",
-    search: "फसलें खोजें...",
-    crop: "फसल",
-    commodity: "वस्तु",
-    minPrice: "न्यूनतम मूल्य",
-    maxPrice: "अधिकतम मूल्य",
-    modalPrice: "मोडल मूल्य",
+    soilMoisture: "मिट्टी की नमी",
     temperature: "तापमान",
     humidity: "आर्द्रता",
     windSpeed: "हवा की गति",
@@ -48,11 +35,10 @@ const translations = {
     switchToHindi: "हिंदी में बदलें",
     switchToEnglish: "Switch to English",
     today: "आज",
-    pricePerQuintal: "मूल्य (₹/क्विंटल)",
     farmer: "किसान",
-    noCropsFound: "आपकी खोज से मेल खाती कोई फसल नहीं मिली",
     locationNotFound: "स्थान तक पहुंच अस्वीकृत या नहीं मिला, डिफ़ॉल्ट का उपयोग कर रहा है",
-    noCropData: "इस स्थान के लिए कोई फसल डेटा उपलब्ध नहीं है",
+    soilMoistureLoading: "मिट्टी की नमी डेटा लोड हो रहा है...",
+    soilMoistureError: "मिट्टी की नमी डेटा लाने में विफल",
   },
 };
 
@@ -69,8 +55,8 @@ const weatherIcons = {
 };
 
 const Dashboard = () => {
-  const [language, setLanguage] = useState("english");
-  const [location, setLocation] = useState({ state: "", district: "" });
+  const [language, setLanguage] = useState("hindi");
+  const [location, setLocation] = useState({ state: "", district: "", lat: null, lon: null });
   const [weather, setWeather] = useState({
     temp: 28,
     humidity: 65,
@@ -78,13 +64,11 @@ const Dashboard = () => {
     rainfall: 30,
   });
   const [forecast, setForecast] = useState([]);
-  const [selectedCrops, setSelectedCrops] = useState([]);
-  const [filteredCrops, setFilteredCrops] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [soilMoisture, setSoilMoisture] = useState(null);
   const [loading, setLoading] = useState(true);
   const [weatherLoading, setWeatherLoading] = useState(true);
+  const [soilMoistureLoading, setSoilMoistureLoading] = useState(true);
   const [locationError, setLocationError] = useState(false);
-  const [cropData, setCropData] = useState({});
   const t = translations[language];
 
   const getCurrentPosition = () => {
@@ -204,72 +188,53 @@ const Dashboard = () => {
     });
   };
 
+  const fetchSoilMoisture = async (lat, lon) => {
+    setSoilMoistureLoading(true);
+    try {
+      // Simulated API call to a server-side endpoint that queries GEE
+      const response = await fetch(`http://localhost:3000/api/soil-moisture?lat=${lat}&lon=${lon}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch soil moisture data");
+      }
+      const data = await response.json();
+      setSoilMoisture(data.moisture); // Assuming the API returns { moisture: <value> }
+    } catch (error) {
+      console.error("Error fetching soil moisture data:", error);
+      setSoilMoisture(null);
+    } finally {
+      setSoilMoistureLoading(false);
+    }
+  };
+
   const fetchLocationAndData = async () => {
     try {
       const position = await getCurrentPosition();
       const { latitude, longitude } = position.coords;
 
       await fetchWeatherData(latitude, longitude);
+      await fetchSoilMoisture(latitude, longitude);
 
       const { district, state, isDefault } = await reverseGeocode(latitude, longitude);
-      setLocation({ state, district });
+      setLocation({ state, district, lat: latitude, lon: longitude });
       setLocationError(isDefault);
-
-      const crops = cropData[state]?.[district] || [];
-      setSelectedCrops(crops);
-      setFilteredCrops(crops);
     } catch (error) {
       console.error("Error fetching location:", error);
       setLocationError(true);
-      setLocation({ state: "Maharashtra", district: "Pune" });
+      setLocation({ state: "Maharashtra", district: "Pune", lat: 18.5204, lon: 73.8567 });
       await fetchWeatherData(18.5204, 73.8567);
-      const crops = cropData["Maharashtra"]?.["Pune"] || [];
-      setSelectedCrops(crops);
-      setFilteredCrops(crops);
+      await fetchSoilMoisture(18.5204, 73.8567);
     }
   };
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      try {
-        const cropResponse = await fetch('/prices.json');
-        if (!cropResponse.ok) {
-          throw new Error("Failed to fetch crop data");
-        }
-        const cropData = await cropResponse.json();
-        console.log(cropData);
-        setCropData(cropData);
-
-        await fetchLocationAndData();
-      } catch (error) {
-        console.error("Error loading data:", error);
-        setCropData({});
-        await fetchLocationAndData();
-      } finally {
-        setLoading(false);
-      }
+      await fetchLocationAndData();
+      setLoading(false);
     };
 
     loadData();
   }, []);
-
-  const handleSearchChange = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-
-    if (!query.trim()) {
-      setFilteredCrops(selectedCrops);
-      return;
-    }
-
-    const filtered = selectedCrops.filter(
-      (crop) =>
-        crop.crop.toLowerCase().includes(query) ||
-        crop.commodity.toLowerCase().includes(query)
-    );
-    setFilteredCrops(filtered);
-  };
 
   const toggleLanguage = () => {
     setLanguage(language === "english" ? "hindi" : "english");
@@ -447,80 +412,42 @@ const Dashboard = () => {
           whileHover="hover"
           className="mb-6 p-6 bg-white/70 dark:bg-green-950/90 border border-green-200 dark:border-green-800 rounded shadow transition-all"
         >
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center">
-              <BarChart3 className="h-5 w-5 text-green-600 dark:text-green-400 mr-2" />
-              <h2 className="text-xl font-semibold text-green-800 dark:text-green-300">
-                {t.crops}
-              </h2>
-            </div>
-            <div className="relative w-full max-w-xs ml-4">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-green-500" />
-              <input
-                type="text"
-                placeholder={t.search}
-                value={searchQuery}
-                onChange={handleSearchChange}
-                className="pl-8 p-2 border rounded bg-white/90 dark:bg-green-900/90 border-green-200 dark:border-green-700 w-full text-green-800 dark:text-green-200"
-              />
-            </div>
+          <div className="flex items-center mb-4">
+            <Droplets className="h-5 w-5 text-green-600 dark:text-green-400 mr-2" />
+            <h2 className="text-xl font-semibold text-green-800 dark:text-green-300">
+              {t.soilMoisture}
+            </h2>
           </div>
-          {loading ? (
+          {soilMoistureLoading ? (
             <div className="flex justify-center items-center py-8">
               <motion.div
                 className="h-8 w-8 border-4 border-t-green-500 border-r-green-500 border-b-green-300 border-l-green-300 rounded-full"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
               />
+              <span className="ml-2 text-green-700 dark:text-green-400">{t.soilMoistureLoading}</span>
+            </div>
+          ) : soilMoisture !== null ? (
+            <div className="text-green-800 dark:text-green-200">
+              <p className="text-2xl font-bold">{soilMoisture}%</p>
+              <p className="mt-2">
+                {soilMoisture < 20
+                  ? language === "english"
+                    ? "Soil is dry. Consider irrigating soon."
+                    : "मिट्टी सूखी है। जल्द ही सिंचाई पर विचार करें।"
+                  : soilMoisture < 40
+                  ? language === "english"
+                    ? "Soil moisture is moderate. Monitor closely."
+                    : "मिट्टी की नमी मध्यम है। नज़दीकी से निगरानी करें।"
+                  : language === "english"
+                  ? "Soil moisture is optimal. No immediate action needed."
+                  : "मिट्टी की नमी इष्टतम है। तत्काल कार्रवाई की आवश्यकता नहीं है।"}
+              </p>
             </div>
           ) : (
-            <>
-              {selectedCrops.length > 0 ? (
-                <>
-                  {filteredCrops.length > 0 ? (
-                    <div className="overflow-x-auto">
-                      <table className="w-full">
-                        <thead>
-                          <tr className="border-b border-green-200 dark:border-green-700">
-                            <th className="text-left py-2 px-4 text-green-700 dark:text-green-400 font-medium">{t.crop.field.crop}</th>
-                            <th className="text-left py-2 px-4 text-green-700 dark:text-green-400 font-medium">{t.crop.field.commodity}</th>
-                            <th className="text-right py-2 px-4 text-green-700 dark:text-green-400 font-medium">{t.minPrice}</th>
-                            <th className="text-right py-2 px-4 text-green-700 dark:text-green-400 font-medium">{t.maxPrice}</th>
-                            <th className="text-right py-2 px-4 text-green-700 dark:text-green-400 font-medium">{t.modalPrice}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {filteredCrops.map((crop, index) => (
-                            <motion.tr
-                              key={index}
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: index * 0.1 }}
-                              className="border-b border-green-100 dark:border-green-800/50 hover:bg-green-50 dark:hover:bg-green-900/30"
-                            >
-                              <td className="py-3 px-4 text-green-800 dark:text-green-200">{crop.crop}</td>
-                              <td className="py-3 px-4 text-green-800 dark:text-green-200">{crop.commodity}</td>
-                              <td className="py-3 px-4 text-right text-green-800 dark:text-green-200">₹{crop.min.toLocaleString()}</td>
-                              <td className="py-3 px-4 text-right text-green-800 dark:text-green-200">₹{crop.max.toLocaleString()}</td>
-                              <td className="py-3 px-4 text-right font-medium text-green-800 dark:text-green-200">₹{crop.modal.toLocaleString()}</td>
-                            </motion.tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : (
-                    <div className="py-8 text-center text-green-700 dark:text-green-400">
-                      {t.noCropsFound}
-                    </div>
-                  )}
-                  <div className="mt-4 text-sm text-green-600 dark:text-green-400 text-right">{t.pricePerQuintal}</div>
-                </>
-              ) : (
-                <div className="py-8 text-center text-green-700 dark:text-green-400">
-                  {t.noCropData}
-                </div>
-              )}
-            </>
+            <div className="py-8 text-center text-green-700 dark:text-green-400">
+              {t.soilMoistureError}
+            </div>
           )}
         </motion.div>
 
