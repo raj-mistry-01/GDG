@@ -8,6 +8,7 @@ from webscrap import get_medicine_text
 import os
 # from google.cloud import storage
 from CNN_use import getfromcnn
+from cropAdvisoryPrediction import predict_crop_advice
 app = Flask(__name__)
 CORS(app)
 
@@ -78,6 +79,23 @@ def cn() :
     image.save(image_path)
     pc = getfromcnn(image_path=image_path)
     return jsonify({"predictedClass" : pc}) 
+
+
+@app.route("/cropadvice" , methods = ["POST"]) 
+def cpadv() : 
+    data = request.get_json()
+    N = float(data["N"])
+    P = float(data["P"])
+    K = float(data["K"])
+    temperature = float(data["temperature"])
+    humidity = float(data["humidity"])
+    ph = float(data['ph'])
+    rainfall = float(data["rainfall"])
+    # print(ph)
+    test_input = [N, P , K , temperature ,humidity , ph , rainfall]
+    print(predict_crop_advice(test_input))
+    # return jsonify({"ok" : "ok"})
+    return jsonify({"rec_crops" : predict_crop_advice(test_input)})
 
 
 if __name__ == "__main__":

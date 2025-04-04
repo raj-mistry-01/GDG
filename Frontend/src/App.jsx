@@ -7,6 +7,8 @@ import Navbar from "./components/Navbar"
 import Expr from "./components/Expr"
 import Cnn from "./components/Cnn"
 import Dashboard from "./components/Dashboard"
+import CropAdviceForm from "./components/CropAdviceForm"
+import { Crop } from "lucide-react"
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
           <Route path="/testing" element={<Expr />}></Route>
           <Route path="/cnn" element={<Cnn />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
+          <Route path="/crop_advice" element={<CropAdviceForm />}></Route>
         </Routes>
       </BrowserRouter>
     </>

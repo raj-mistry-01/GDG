@@ -61,6 +61,14 @@ const Navbar = () => {
           </li>
           <li>
             <Link
+              to="/crop_advice"
+              className="text-white px-4 py-2 rounded-md hover:bg-green-500 hover:text-black transition duration-300"
+            >
+              <i><b>Crop Advisory</b></i>
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/dashboard"
               className="text-white px-4 py-2 rounded-md hover:bg-green-500 hover:text-black transition duration-300"
             >
@@ -109,6 +117,15 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             <i><b>Plant Disease Detector</b></i>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/crop_advice"
+            className="block text-white px-4 py-2 rounded-md hover:bg-green-500 hover:text-black transition duration-300"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <i><b>Crop Advisory</b></i>
           </Link>
         </li>
         <li>
