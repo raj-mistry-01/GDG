@@ -41,7 +41,7 @@ const CropAdviceForm = () => {
             submit: "Submit Soil Data",
             submitting: "Recording Data...",
             successTitle: "Data Recorded Successfully!",
-            successMessage: "Predicted yield : ",
+            successMessage: "Recommended Crops: ",
             instructionsTitle: "Important Instructions for Farmers",
             instructionsText: `Before filling out the form, it is essential to have a Soil Health Card. This card provides detailed information about the nutrient content and health of your soil, which is necessary for accurately completing the required fields in the form.
             
@@ -74,7 +74,7 @@ Download the Soil Health Card: Once processed, you will receive your Soil Health
             submit: "मिट्टी डेटा जमा करें",
             submitting: "डेटा दर्ज किया जा रहा है...",
             successTitle: "डेटा सफलतापूर्वक एकत्रित किया गया!",
-            successMessage: "अनुमानित उपज : ",
+            successMessage: "अनुशंसित फसलें : ",
             instructionsTitle: "किसानों के लिए महत्वपूर्ण निर्देश",
             instructionsText: `फॉर्म भरने से पहले, यह आवश्यक है कि आपके पास एक सोइल हेल्थ कार्ड हो। यह कार्ड आपकी मिट्टी के पोषक तत्व और स्वास्थ्य की विस्तृत जानकारी प्रदान करता है, जो फॉर्म में आवश्यक फील्ड्स को सही ढंग से भरने के लिए आवश्यक है।
 
