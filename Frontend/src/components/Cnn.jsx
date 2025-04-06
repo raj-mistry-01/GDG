@@ -118,7 +118,7 @@ Repeat: Use only ${language} language.`;
   // Helper to render the Gemini response in a better format.
   const renderGeminiResponse = (text) => {
     // Remove markdown formatting (e.g., ** for bold)
-    const cleanedText = text.replace(/\\/g, "");
+    const cleanedText = text.replace(/\*\*/g, "");
     // Split the response into lines.
     const lines = cleanedText.split("\n").filter((line) => line.trim() !== "");
     // If the first line starts with a hyphen, assume it's bullet-pointed.
