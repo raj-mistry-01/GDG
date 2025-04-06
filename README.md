@@ -84,7 +84,7 @@ An all-in-one smart dashboard with real-time data:
 
 ## 🧱 System Architecture
 
-![Blank diagram (1)](https://github.com/user-attachments/assets/48f4e8bd-6018-4d40-a84e-5f98559acf03)
+![Blank diagram (1)](https://github.com/user-attachments/assets/cc874467-ee94-4f68-9ace-a8374bbce1eb)
 
 ---
 
@@ -108,8 +108,6 @@ An all-in-one smart dashboard with real-time data:
 | Raj Mistry     | [GitHub](https://github.com/raj-mistry-01) |
 | Chaitya Shah   | [GitHub](https://github.com/chaitya2208) |
 ---
-
-## 📂 Project Structure
 
 ## 📦 Installation & Setup
 
