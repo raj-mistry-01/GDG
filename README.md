@@ -66,6 +66,9 @@ An all-in-one smart dashboard with real-time data:
 
 ---
 
+## 🛠️ Demo Link
+[Youtube](https://youtu.be/5hT7Lku5hG0)
+
 ## 📸 UI Preview
 
 <img src="https://github.com/user-attachments/assets/d881d06d-9dfe-4248-bf0a-98746d6d0209" width="600" height="300">
@@ -75,6 +78,8 @@ An all-in-one smart dashboard with real-time data:
 <img src="https://github.com/user-attachments/assets/0534baa4-3a93-4498-84a9-e5e33361d414" width="600" height="300">
 
 ---
+
+
 
 ## 📈 Use Case Diagram
 
