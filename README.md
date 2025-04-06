@@ -145,4 +145,4 @@ Deployed on:
   Making NeuralAgri more accessible to farmers across different states.
 
 - 🛰️ **Real-time Satellite Monitoring**  
-  Integrate more layers from remote sensing data for disease and growth tracking
+  Integrate more layers from remote sensing data for disease and growth tracking.
