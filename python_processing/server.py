@@ -9,6 +9,9 @@ import os
 # from google.cloud import storage
 from CNN_use import getfromcnn
 from cropAdvisoryPrediction import predict_crop_advice
+import datetime
+import ee
+import json
 app = Flask(__name__)
 CORS(app)
 
@@ -96,6 +99,53 @@ def cpadv() :
     print(predict_crop_advice(test_input))
     # return jsonify({"ok" : "ok"})
     return jsonify({"rec_crops" : predict_crop_advice(test_input)})
+
+# Load credentials
+with open('googleEarthEngineCredintials.json') as f:
+    private_key = json.load(f)
+
+# Authenticate Earth Engine using service account credentials
+credentials = ee.ServiceAccountCredentials(
+    email=private_key['client_email'],
+    key_file='googleEarthEngineCredintials.json'
+)
+
+ee.Initialize(credentials)
+print("✅ Earth Engine initialized in Flask")
+
+@app.route('/moisture', methods=['GET'])
+def get_soil_moisture():
+    data = request.get_json()
+    lat = data["lat"]
+    lon = data["lon"]
+
+    if not lat or not lon:
+        return jsonify({'error': 'Latitude and longitude are required'}), 400
+
+    try:
+        point = ee.Geometry.Point([float(lon), float(lat)])
+        end_date = datetime.datetime.utcnow()
+        start_date = end_date - datetime.timedelta(days=7)
+
+        smap = ee.ImageCollection('NASA/SMAP/SPL4SMGP/007') \
+            .filterDate(start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')) \
+            .select('sm_surface')
+
+        image = smap.mean()
+        moisture = image.reduceRegion(
+            reducer=ee.Reducer.mean(),
+            geometry=point,
+            scale=10000
+        ).get('sm_surface')
+
+        result = moisture.getInfo()
+        value = round(result * 100, 1) if result is not None else None
+
+        return jsonify({'moisture': value})
+
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return jsonify({'error': 'Failed to fetch soil moisture'}), 500
 
 
 if __name__ == "__main__":
