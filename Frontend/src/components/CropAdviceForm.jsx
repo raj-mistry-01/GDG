@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Loader2, Sprout, Cloud, Wheat, ThermometerSun } from "lucide-react";
 
 const CropAdviceForm = () => {
+    const [accepted, setAccepted] = useState(false);
     const [formData, setFormData] = useState({
         N: "",
         P: "",
@@ -10,14 +11,14 @@ const CropAdviceForm = () => {
         temperature: "",
         humidity: "",
         ph: "",
-        rainfall: '',
+        rainfall: "",
     });
-
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [showMessage, setShowMessage] = useState(submitted);
-    const [language, setLanguage] = useState("hindi");
+    // const [yield_, setYield] = useState(0);
     const [rec_crops, setrec_crops] = useState([])
+    const [language, setLanguage] = useState("hindi");
 
     const translations = {
         english: {
@@ -41,6 +42,17 @@ const CropAdviceForm = () => {
             submitting: "Recording Data...",
             successTitle: "Data Recorded Successfully!",
             successMessage: "Predicted yield : ",
+            instructionsTitle: "Important Instructions for Farmers",
+            instructionsText: `Before filling out the form, it is essential to have a Soil Health Card. This card provides detailed information about the nutrient content and health of your soil, which is necessary for accurately completing the required fields in the form.
+            
+How to Get Your Soil Health Card:
+Visit the Official Website: Go to the <a href="https://soilhealth.dac.gov.in/home" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Soil Health Card Portal</a>.
+Select Your State & District: Choose your state and district to proceed.
+Enter Required Details: Provide the necessary information, such as your land details and Aadhaar number, if required.
+Download the Soil Health Card: Once processed, you will receive your Soil Health Card, which contains vital data about your soil’s nutrient levels.
+
+⚠ Please make sure to obtain your Soil Health Card before proceeding with the form to ensure accurate input of soil data.`,
+            agree: "I Agree",
         },
         hindi: {
             title: "मिट्टी विश्लेषण फॉर्म",
@@ -63,6 +75,17 @@ const CropAdviceForm = () => {
             submitting: "डेटा दर्ज किया जा रहा है...",
             successTitle: "डेटा सफलतापूर्वक एकत्रित किया गया!",
             successMessage: "अनुमानित उपज : ",
+            instructionsTitle: "किसानों के लिए महत्वपूर्ण निर्देश",
+            instructionsText: `फॉर्म भरने से पहले, यह आवश्यक है कि आपके पास एक सोइल हेल्थ कार्ड हो। यह कार्ड आपकी मिट्टी के पोषक तत्व और स्वास्थ्य की विस्तृत जानकारी प्रदान करता है, जो फॉर्म में आवश्यक फील्ड्स को सही ढंग से भरने के लिए आवश्यक है।
+
+सोइल हेल्थ कार्ड कैसे प्राप्त करें:
+आधिकारिक वेबसाइट पर जाएँ: Soil Health Card Portal पर जाएँ (<a href="https://soilhealth.dac.gov.in/home" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">यहाँ क्लिक करें</a>)।
+अपने राज्य और जिला का चयन करें: आगे बढ़ने के लिए अपने राज्य और जिले का चयन करें।
+आवश्यक विवरण दर्ज करें: अपनी भूमि से संबंधित विवरण और यदि आवश्यक हो तो आधार नंबर दर्ज करें।
+सोइल हेल्थ कार्ड डाउनलोड करें: प्रक्रिया पूरी होने पर, आपको आपका सोइल हेल्थ कार्ड प्राप्त होगा, जिसमें आपकी मिट्टी के पोषक तत्वों का महत्वपूर्ण डेटा होता है।
+
+⚠ कृपया फॉर्म भरने से पहले अपना सोइल हेल्थ कार्ड प्राप्त करें ताकि मिट्टी डेटा सही तरीके से दर्ज किया जा सके।`,
+            agree: "मैं सहमत हूँ",
         },
     };
 
@@ -110,7 +133,6 @@ const CropAdviceForm = () => {
             }),
         });
         let json_ = await response.json();
-        console.log(json_)
         setrec_crops(json_["rec_crops"]);
     };
 
@@ -128,6 +150,36 @@ const CropAdviceForm = () => {
         hidden: { y: 20, opacity: 0 },
         show: { y: 0, opacity: 1 },
     };
+
+    if (!accepted) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-emerald-50 to-teal-100 dark:from-green-950 dark:via-emerald-900 dark:to-teal-950 p-6">
+                <div className="max-w-xl w-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-green-200 dark:border-green-900 shadow-lg rounded-2xl p-8 relative">
+                    <div className="absolute top-4 right-4">
+                        <button
+                            onClick={() => setLanguage(language === "english" ? "hindi" : "english")}
+                            className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full text-sm font-medium hover:bg-green-200 dark:hover:bg-green-800 transition-colors duration-300"
+                        >
+                            {language === "english" ? "हिंदी" : "English"}
+                        </button>
+                    </div>
+                    <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">
+                        {translations[language].instructionsTitle}
+                    </h2>
+                    <div
+                        className="text-slate-600 dark:text-slate-400 whitespace-pre-line mb-6"
+                        dangerouslySetInnerHTML={{ __html: translations[language].instructionsText }}
+                    />
+                    <button
+                        onClick={() => setAccepted(true)}
+                        className="w-full bg-green-600 dark:bg-green-500 text-white p-4 rounded-lg font-bold text-lg shadow-lg transition-all duration-300 hover:bg-green-700 dark:hover:bg-green-600"
+                    >
+                        {translations[language].agree}
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-emerald-50 to-teal-100 dark:from-green-950 dark:via-emerald-900 dark:to-teal-950 p-6 relative overflow-hidden transition-colors duration-500">
