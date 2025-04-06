@@ -40,7 +40,7 @@ const Navbar = () => {
               to="/chatbot"
               className="text-white px-4 py-2 rounded-md hover:bg-green-500 hover:text-black transition duration-300"
             >
-              <i><b>ChatBot</b></i>
+              <i><b>AgroAI</b></i>
             </Link>
           </li>
           <li>
@@ -98,7 +98,7 @@ const Navbar = () => {
             className="block text-white px-4 py-2 rounded-md hover:bg-green-500 hover:text-black transition duration-300"
             onClick={() => setMobileMenuOpen(false)}
           >
-            <i><b>ChatBot</b></i>
+            <i><b>AgroAI</b></i>
           </Link>
         </li>
         <li>

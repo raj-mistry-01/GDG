@@ -69,13 +69,16 @@ An all-in-one smart dashboard with real-time data:
 ## 🛠️ Demo Link
 [Youtube](https://youtu.be/5hT7Lku5hG0)
 
+---
+
 ## 📸 UI Preview
 
-<img src="https://github.com/user-attachments/assets/d881d06d-9dfe-4248-bf0a-98746d6d0209" width="600" height="300">
-<img src="https://github.com/user-attachments/assets/978cf827-6d6d-48f9-8912-dcdf2ace6c40" width="600" height="300">
-<img src="https://github.com/user-attachments/assets/d1abafc7-76cc-4ae3-839e-e68bbc72b95c" width="600" height="300">
-<img src="https://github.com/user-attachments/assets/668efaf5-ce64-4766-85d7-381afecc856a" width="600" height="300">
-<img src="https://github.com/user-attachments/assets/0534baa4-3a93-4498-84a9-e5e33361d414" width="600" height="300">
+<img src="https://www.dropbox.com/scl/fi/i5ti98x590tf70e4ued5i/Screenshot-2025-04-06-170452.png?rlkey=iuc1nwv4bm9dwfw8tsszfot6b&st=c6toznkc&raw=1" width="600" height="300">
+<img src="https://www.dropbox.com/scl/fi/ozd5y82brqzn6gqk4talb/Screenshot-2025-04-06-170821.png?rlkey=j03ab1csf3vcimhkx5x4oqdrd&st=7mtgjkdb&raw=1" width="600" height="300">
+<img src="https://www.dropbox.com/scl/fi/dxzh11qewpu4p62gn3ret/Screenshot-2025-04-06-170755.png?rlkey=k3i26ze65rhky1cozxc2i3zcl&st=rixs404m&raw=1" width="600" height="300">
+<img src="https://www.dropbox.com/scl/fi/ugrff4tbbsvf842g307db/Screenshot-2025-04-06-170657.png?rlkey=ycc2kiru1m0ssbluf2z09xwpl&st=athie435&raw=1" width="600" height="300">
+<img src="https://www.dropbox.com/scl/fi/trg5jvyz54ut304c5u8qq/Screenshot-2025-04-06-170648.png?rlkey=sxq2a16jc6jk2kh2zlmquw2q6&st=lkzcqjza&raw=1" width="600" height="300">
+<img src="https://www.dropbox.com/scl/fi/cd0zfexc8cmq6g29jpafx/Screenshot-2025-04-06-170531.png?rlkey=r11bp7sl1120h5kb27vt8f6vp&st=4mjn0etb&raw=1" width="600" height="300">
 
 ---
 
@@ -83,13 +86,13 @@ An all-in-one smart dashboard with real-time data:
 
 ## 📈 Use Case Diagram
 
-![Blank diagram (2)](https://github.com/user-attachments/assets/52c5dbc9-63b8-45da-bdea-0dfa78dfcba8)
+![Use Case Daigram](https://www.dropbox.com/scl/fi/trflsr6s8x0zideqe9sqq/USE-CASE.jpeg.jpg?rlkey=rks1q8efu2sdf3ci9k4ogxri2&st=j7vjoalj&raw=1)
 
 ---
 
 ## 🧱 System Architecture
 
-![Blank diagram (1)](https://github.com/user-attachments/assets/cc874467-ee94-4f68-9ace-a8374bbce1eb)
+![Architecture](https://www.dropbox.com/scl/fi/w4a0i8prnacs46reieqgr/Blank-diagram-3-.jpeg.jpg?rlkey=ftumpsukdca09ssnou4stkkwy&st=zhz0pf8w&raw=1)
 
 ---
 
