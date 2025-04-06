@@ -113,9 +113,10 @@ credentials = ee.ServiceAccountCredentials(
 ee.Initialize(credentials)
 print("✅ Earth Engine initialized in Flask")
 
-@app.route('/moisture', methods=['GET'])
+@app.route('/moisture', methods=['POST'])
 def get_soil_moisture():
     data = request.get_json()
+    # print(data)
     lat = data["lat"]
     lon = data["lon"]
 

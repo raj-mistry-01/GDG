@@ -192,7 +192,16 @@ const Dashboard = () => {
     setSoilMoistureLoading(true);
     try {
       // Simulated API call to a server-side endpoint that queries GEE
-      const response = await fetch(`http://localhost:3000/api/soil-moisture?lat=${lat}&lon=${lon}`);
+      const response = await fetch(`http://127.0.0.1:5000/moisture` , {
+        method : 'POST',
+        headers : {
+          'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({
+          lat : lat,
+          lon : lon
+        })
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch soil moisture data");
       }
@@ -210,6 +219,8 @@ const Dashboard = () => {
     try {
       const position = await getCurrentPosition();
       const { latitude, longitude } = position.coords;
+      console.log(latitude);
+      console.log(longitude);
 
       await fetchWeatherData(latitude, longitude);
       await fetchSoilMoisture(latitude, longitude);
