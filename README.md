@@ -132,7 +132,7 @@ python server.py
 Deployed on:
 
 - 🔗 [Vercel (Frontend)](https://gdg-ai-challenge.vercel.app/)
-- 🔗 [Firebase (Frontend)](https://nueralagri.web.app/)
+- 🔗 [Firebase (Frontend)](https://neuralagri.web.app/)
 
 ---
 
