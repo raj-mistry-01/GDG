@@ -106,7 +106,7 @@ An all-in-one smart dashboard with real-time data:
 | Anshul Patel   | [GitHub](https://github.com/anshul755) |
 | Jainil Patel   | [GitHub](https://github.com/JainilPatel2502) |
 | Raj Mistry     | [GitHub](https://github.com/raj-mistry-01) |
-| Chaitya Shah   | [GitHub](https://github.com/raj-mistry-01) |
+| Chaitya Shah   | [GitHub](https://github.com/chaitya2208) |
 ---
 
 ## 📂 Project Structure
