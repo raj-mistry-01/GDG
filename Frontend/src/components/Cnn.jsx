@@ -12,7 +12,7 @@ import {
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 function Cnn() {
-  console.log("In cnn")
+  console.log("In cnn");
   const [medicinData, setmedicinData] = useState([]);
   const [language, setLanguage] = useState("hindi");
   const fileInputRef = useRef(null);
@@ -45,7 +45,9 @@ function Cnn() {
   const fetchGeminiSuggestion = async (predictedDisease) => {
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const prompt = `Explain the disease "${predictedDisease}" in exactly 7 to 10 clear, concise, and bullet-pointed points. 
+      const prompt = `Respond in ${language} language only.
+
+Explain the disease "${predictedDisease}" in exactly 7 to 10 clear, concise, and bullet-pointed points.
 Each point should cover:
 1. What is the disease?
 2. Causes
@@ -54,12 +56,14 @@ Each point should cover:
 5. Recommended medicines
 6. Preventive measures
 7. Any other useful facts.
-Avoid using markdown (like **) and keep it very easy to understand.`;
+Avoid using markdown (like **) and keep it very easy to understand.
+
+Repeat: Use only ${language} language.`;
 
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = await response.text();
-      console.log(text)
+      console.log(text);
       setGeminiResponse(text);
     } catch (error) {
       console.error("Gemini API Error:", error);
@@ -110,6 +114,27 @@ Avoid using markdown (like **) and keep it very easy to understand.`;
   useEffect(() => {
     getmeddata();
   }, []);
+
+  // Helper to render the Gemini response in a better format.
+  const renderGeminiResponse = (text) => {
+    // Remove markdown formatting (e.g., ** for bold)
+    const cleanedText = text.replace(/\\/g, "");
+    // Split the response into lines.
+    const lines = cleanedText.split("\n").filter((line) => line.trim() !== "");
+    // If the first line starts with a hyphen, assume it's bullet-pointed.
+    if (lines.length > 0 && lines[0].trim().startsWith("-")) {
+      return (
+        <ul className="list-disc pl-5">
+          {lines.map((line, index) => (
+            <li key={index} className="mb-2">
+              {line.replace(/^-+/, "").trim()}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+    return <p>{cleanedText}</p>;
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-emerald-50 to-teal-100 dark:from-green-950 dark:via-emerald-900 dark:to-teal-950 p-6 relative overflow-hidden transition-colors duration-500">
@@ -253,7 +278,9 @@ Avoid using markdown (like **) and keep it very easy to understand.`;
             <h3 className="text-xl font-bold mb-2">
               More Info on: {prediction}
             </h3>
-            <p className="whitespace-pre-wrap text-sm">{geminiResponse}</p>
+            <div className="whitespace-pre-wrap text-sm">
+              {renderGeminiResponse(geminiResponse)}
+            </div>
           </motion.div>
         )}
       </motion.div>
